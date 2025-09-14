@@ -51,7 +51,7 @@ public class ClienteController {
 
 	@GetMapping("/all")
 	public List<Cliente> getAll() {
-		logger.info(">>>>>> apicontroller consulta todos iniciado...");
+		logger.info(">>>>>> api cliente controller consulta todos iniciado...");
 		return clienteService.consultaTodos();
 	}
 
