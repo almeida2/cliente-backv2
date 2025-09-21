@@ -32,7 +32,7 @@ public class ClienteService implements IClienteService {
 	}
 
 	@Transactional
-	public ClienteResponse cadastrar(ClienteDTO cliente) {
+	public Optional<Cliente> cadastrar(ClienteDTO cliente) {
 		try {
 			Cliente novoCliente = new Cliente();
 			novoCliente.setCpf(cliente.cpf());
@@ -43,54 +43,45 @@ public class ClienteService implements IClienteService {
 			// Verifica se o cliente já existe com base no CPF
 			if (clienteRepository.findByCpf(novoCliente.getCpf()).isPresent()) {
 				logger.info(">>>>>> clienteservico - cliente já cadastrado");
-				return new ClienteResponse(false, "Cliente já cadastrado.", null);
+				throw new IllegalArgumentException("Cliente já cadastrado");
 			}
 			//chama a classe servico de endereco para obter o cep
 			Optional<String> endereco = enderecoService.obtemLogradouroPorCep(novoCliente.getCep());
 			if (endereco.isEmpty()) {
 				logger.info(">>>>>> Endereço não encontrado para o CEP");
-				return new ClienteResponse(false, "Endereço não encontrado.", null);
+				throw new IllegalArgumentException("Endereço não encontrado.");
 			} else {
 				novoCliente.setDataCadastro();
 				novoCliente.setEndereco(endereco.get());
-				Cliente c = clienteRepository.save(novoCliente);
 				logger.info(">>>>>> clienteservico - cliente salvo com sucesso no repositório");
-				
-				return new ClienteResponse(true, "Cliente cadastrado com sucesso.", c);
+				return Optional.of(clienteRepository.save(novoCliente));
 			}
-		} catch (IllegalArgumentException e) {
-			return new ClienteResponse(false, e.getMessage(), null);
+		
 		} catch (Exception e) {
 			logger.info(">>>>>> clienteservico - erro nao esperado metodo cadastrar => " + e.getMessage());
-			return new ClienteResponse(false, "Erro não esperado ao cadastrar cliente.", null);
+		    return Optional.empty();
 		}
 	}
 
 
 	@Override
-	public ClienteResponse consultarPorCpf(String cpf) {
-		Optional<Cliente> c = clienteRepository.findByCpf(cpf);
-		if (c.isPresent()) {
-			return new ClienteResponse(true, null, c.get());
-		} else {
-			logger.info(">>>>>> clienteservico cliente nao encontrado => " + cpf);
-			return new ClienteResponse(false, "Cliente não cadastrado", null);
-		}
+	public Optional<Cliente> consultarPorCpf(String cpf) {
+		return clienteRepository.findByCpf(cpf);
 	}
 
 	@Override
-	public ClienteResponse atualizar(String cpf, Cliente cliente) {
-		return new ClienteResponse(false, "Nao implementado", null);
+	public Optional<Cliente> atualizar(String cpf, Cliente cliente) {
+		return Optional.empty();
 	}
 
 	@Override
-	public ClienteResponse excluir(String cpf) {
+	public void excluir(String cpf) {
 		Optional<Cliente> c = clienteRepository.findByCpf(cpf);
 		if (c.isEmpty()) {
-			return new ClienteResponse(false, "Cliente não cadastrado", null);
+			throw new IllegalArgumentException("Cliente não encontrado.");
 		} else {
 			clienteRepository.deleteByCpf(cpf);
-			return new ClienteResponse(true, "Cliente excluido", null);
+		
 		}
 	}
 

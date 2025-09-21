@@ -1,6 +1,8 @@
 package com.fatec.cliente_backv2.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -39,21 +41,23 @@ public class ClienteController {
 	public ResponseEntity<Object> saveCliente(@RequestBody ClienteDTO cliente) {
 		logger.info(">>>>>> apicontroller cadastro de cliente iniciado...");
 		
-		ClienteResponse c = clienteService.cadastrar(cliente);
-		if (c.isSucesso()) {
-			ApiResponse<Cliente> response = new ApiResponse<>(c.getCliente(), "Cliente cadastrado com sucesso.");
+		Optional<Cliente> c = clienteService.cadastrar(cliente);
+		if (c.isPresent()) {
+			ApiResponse<Cliente> response = new ApiResponse<>(c.get(), "Cliente cadastrado com sucesso.");
 			return ResponseEntity.status(HttpStatus.CREATED).body(response);
 		} else {
-			ApiResponse<Cliente> response = new ApiResponse<>(c.getMensagem());
+			ApiResponse<Cliente> response = new ApiResponse<>("Cliente já cadastrado");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 		}
 
 	}
 
 	@GetMapping("/all")
-	public List<Cliente> getAll() {
+	public ResponseEntity<ApiResponse<List<Cliente>>> getAll() {
 		logger.info(">>>>>> api cliente controller consulta todos iniciado...");
-		return clienteService.consultaTodos();
+		List<Cliente> clientes = clienteService.consultaTodos();
+		ApiResponse<List<Cliente>> response = new ApiResponse<>(clientes, "Lista de clientes cadastrados");
+		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 
 	/*
@@ -61,21 +65,21 @@ public class ClienteController {
 	 * para nao trafegar com o cpf na url
 	 */
 	@PostMapping("/cpf")
-	public ResponseEntity<Object> getCliente(@RequestBody ClienteDTO cliente) {
-		ClienteResponse c = new ClienteResponse(false, "CPF Invalido", null);
+	public ResponseEntity<ApiResponse<Cliente>> getCliente(@RequestBody ClienteDTO cliente) {
 		try {
-			c = clienteService.consultarPorCpf(cliente.cpf()); // obtem o cpf
+			Optional<Cliente> c = clienteService.consultarPorCpf(cliente.cpf());
 			logger.info(">>>>>> apicontroller getCliente consulta servico iniciado");
-			if (c.isSucesso()) {
-				return ResponseEntity.status(HttpStatus.OK).body(c.getCliente());
+			if (c.isPresent()) {
+				ApiResponse<Cliente> response = new ApiResponse<>(c.get(), "Cliente encontrado com sucesso.");
+				return ResponseEntity.status(HttpStatus.OK).body(response);
 			} else {
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(c.getMensagem());
+				ApiResponse<Cliente> response = new ApiResponse<>("CPF não encontrado.");
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 			}
 		} catch (Exception e) {
 			logger.info(">>>>>>apicontroller getCliente erro nao esperado => " + e.getMessage());
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("Erro interno ao processar a requisição.");
-
+			ApiResponse<Cliente> response = new ApiResponse<>(e.getMessage());
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 		}
 	}
 }
