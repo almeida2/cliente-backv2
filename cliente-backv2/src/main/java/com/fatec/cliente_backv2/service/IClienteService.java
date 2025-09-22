@@ -8,7 +8,7 @@ import com.fatec.cliente_backv2.model.ClienteDTO;
 
 public interface IClienteService {
 	public List<Cliente> consultaTodos();
-	public Optional<Cliente> cadastrar(ClienteDTO cliente);
+	public Cliente cadastrar(ClienteDTO cliente);
 	public Optional<Cliente> consultarPorCpf(String cpf);
 	public Optional<Cliente> atualizar(String cpf, Cliente cliente);
 	public void excluir(String cpf);

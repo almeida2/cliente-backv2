@@ -38,19 +38,25 @@ public class ClienteController {
 	 * objeto POJO na assinatura do metodo.
 	 */
 	@PostMapping
-	public ResponseEntity<Object> saveCliente(@RequestBody ClienteDTO cliente) {
-		logger.info(">>>>>> apicontroller cadastro de cliente iniciado...");
-		
-		Optional<Cliente> c = clienteService.cadastrar(cliente);
-		if (c.isPresent()) {
-			ApiResponse<Cliente> response = new ApiResponse<>(c.get(), "Cliente cadastrado com sucesso.");
-			return ResponseEntity.status(HttpStatus.CREATED).body(response);
-		} else {
-			ApiResponse<Cliente> response = new ApiResponse<>("Cliente já cadastrado");
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-		}
+    public ResponseEntity<ApiResponse<Cliente>> saveCliente(@RequestBody ClienteDTO clienteDTO) {
+        logger.info(">>>>>> apicontroller cadastro de cliente iniciado...");
 
-	}
+        try {
+            Cliente novoCliente = clienteService.cadastrar(clienteDTO);
+            ApiResponse<Cliente> response = new ApiResponse<>(novoCliente, "Cliente cadastrado com sucesso.");
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+            
+        } catch (IllegalArgumentException e) {
+            // Captura exceção de CEP inválido
+            ApiResponse<Cliente> response = new ApiResponse<>(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            
+        }  catch (Exception e) {
+            // Captura qualquer outro erro inesperado
+            ApiResponse<Cliente> response = new ApiResponse<>("Erro inesperado ao cadastrar cliente.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
 
 	@GetMapping("/all")
 	public ResponseEntity<ApiResponse<List<Cliente>>> getAll() {
