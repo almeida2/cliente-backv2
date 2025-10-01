@@ -1,6 +1,6 @@
-package com.fatec.cliente_backv2;
+package com.fatec.cliente_backv2.persistencia;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Optional;
 
@@ -11,8 +11,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import com.fatec.cliente_backv2.model.Cliente;
 import com.fatec.cliente_backv2.service.ClienteRepository;
 @DataJpaTest
-class Req10ConcultaClientePeloCPFTests {
-
+class Req13ExclusaoPeloCpfTests {
 	private Cliente cliente;
 	@Autowired
 	private ClienteRepository clienteRepository;
@@ -22,18 +21,22 @@ class Req10ConcultaClientePeloCPFTests {
 		cliente.setNome("Jose da Silva");
 		cliente.setCep("01310-100");
 		cliente.setEndereco("Av. Paulista");
+		cliente.setComplemento("123");
 		cliente.setEmail("jose@gmail.com");
 		cliente.setDataCadastro();
 		clienteRepository.save(cliente);
 	}
-	
 	@Test
-	void ct01_quando_cliente_cadastrado_retorna_detalhes() {
-		//Dado - que o cpf esta cadastrado
+	void ct01_quando_cpf_cadastrado_exclui_cliente_com_sucesso() {
+		//Dado que as informacoes de cliente estao cadastradas
 		setup();
-		//Quando - consulto o cliente pelo cpf
 		Optional<Cliente> c = clienteRepository.findByCpf("80983098000");
-		//Entao - retorna os detalhes do cliente
 		assertTrue (c.isPresent());
+		//Quando confirma e exclusão
+		clienteRepository.deleteByCpf("80983098000");
+		c = clienteRepository.findByCpf("80983098000");
+		//Entao - retorna vazio
+		assertTrue (c.isEmpty());
 	}
+
 }

@@ -44,6 +44,7 @@ public class ClienteController {
         try {
             Cliente novoCliente = clienteService.cadastrar(clienteDTO);
             ApiResponse<Cliente> response = new ApiResponse<>(novoCliente, "Cliente cadastrado com sucesso.");
+            logger.info(">>>>>> apicontroller cliente cadastrado");
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
             
         } catch (IllegalArgumentException e) {
