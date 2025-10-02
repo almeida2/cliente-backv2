@@ -1,4 +1,4 @@
-package com.fatec.cliente_backv2.web;
+package com.fatec.cliente_backv2.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
