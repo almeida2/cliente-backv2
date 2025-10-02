@@ -22,7 +22,7 @@ import com.google.gson.Gson;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class Req09CadastrarClienteTests {
 
-	// 1. Constante para a URL Base (mais limpo e seguro)
+	// 1. Constante para a URL Base
 	private static final String URL_BASE = "/api/v1/clientes";
 	@Autowired
 	private TestRestTemplate restTemplate;
@@ -38,7 +38,7 @@ class Req09CadastrarClienteTests {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 
-		// Cria e retorna a entidade HTTP
+		// Cria a entidade HTTP
 		return new HttpEntity<>(clienteJson, headers);
 	}
 
@@ -48,10 +48,10 @@ class Req09CadastrarClienteTests {
 		// Given - dado que as informacoes de cliente sao validas
 		// ********************************************************************
 
-		// Dados de entrada para o teste
+		// Caminho feliz
 		ClienteDTO clienteNovo = new ClienteDTO("80983098000", "Jose da Silva", "01310-100", "123", "jose@gmail.com");
 
-		// Objeto de requisição HTTP
+		// Empacota a requisicao HTTP
 		HttpEntity<String> request = createPostRequest(clienteNovo);
 
 		// Tipo de resposta esperado (para tipos genéricos)
