@@ -6,7 +6,7 @@ import com.microsoft.playwright.options.*;
 
 import org.junit.jupiter.api.*;
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.*;
-
+import java.nio.file.Paths;
 @UsePlaywright
 public class Req09CadastrarClienteTests {
   @Test
@@ -25,5 +25,10 @@ public class Req09CadastrarClienteTests {
     page.getByTestId("email").fill("jose@gmail.com");
     page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Confirmar")).click();
     assertThat(page.getByTestId("mensagem")).containsText("Cliente cadastrado com sucesso");
+    // Salva o arquivo de screenshot na raiz do projeto
+    page.screenshot(new Page.ScreenshotOptions().setPath(Paths.get("screenshot.png")));
+    // Salva o arquivo de screenshot configurando nome e local
+    ScreenshotUtil.takeScreenshot(page, "CadastrarClienteSucesso");
+    
   }
 }
