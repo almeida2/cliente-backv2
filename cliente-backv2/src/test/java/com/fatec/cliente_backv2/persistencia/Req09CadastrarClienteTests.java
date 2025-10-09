@@ -44,7 +44,9 @@ class Req09CadastrarClienteTests {
 		setup();
 		// Quando - o vendedor confirma o cadastro 
 		Cliente novoCliente = clienteRepository.save(cliente);
-		// Entao - o novo cliente é cadastrado com sucesso no sistema E a data de cadastro é registrada E as informações ficam disponíveis para consulta
+		// Entao - o novo cliente é cadastrado com sucesso no sistema 
+		// E a data de cadastro é registrada
+		// E o endereço é preenchido automaticamente com base no CEP fornecido.
 		assertEquals(1, clienteRepository.count());
 		assertEquals(dataAtual(), novoCliente.getDataCadastro());
 		assertEquals("Av. Paulista", novoCliente.getEndereco());
