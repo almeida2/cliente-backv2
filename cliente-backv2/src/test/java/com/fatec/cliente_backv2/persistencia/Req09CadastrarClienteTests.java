@@ -36,7 +36,7 @@ class Req09CadastrarClienteTests {
 	}
 	@Test
 	void ct01_quando_dados_validos_cliente_cadastrado_com_sucesso() {
-		// Dado - que o cpf do cliente nao esta cadastrado
+		// Dado - que as informacoes do cliente sao validas
 		setup();
 		// Quando - confirmo a operacao de cadastro
 		clienteRepository.save(cliente);
@@ -51,6 +51,7 @@ class Req09CadastrarClienteTests {
 			// Quando - confirmo a operacao de cadastro
 			cliente = new Cliente();
 			cliente.setCpf("");
+			
 		} catch (Exception e) {
 			// Entao - retorna cpf invalido
 			assertEquals("CPF invalido", e.getMessage());
