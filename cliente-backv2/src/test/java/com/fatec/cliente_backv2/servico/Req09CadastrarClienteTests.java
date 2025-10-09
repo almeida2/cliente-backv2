@@ -21,11 +21,11 @@ class Req09CadastrarClienteTests {
 	}
 	@Test
 	void ct01_quando_dados_validos_cliente_cadastrado_com_sucesso() {
-		// Dado - que o cpf do cliente nao esta cadastrado
+		// Dado - que o vendedor forneceu as informações do novo cliente cpf, nome, cep, complemento e e-mail validos
 		setup();
-		//Quando confirmo o cadastro
+		//Quando o vendedor confirma o cadastro
 		c = servico.cadastrar(cliente);
-		// Entao - as informacoes do cliente ficam disponiveis para consulta
+		// Entao - o novo cliente é cadastrado com sucesso no sistema E as informações ficam disponiveis para consulta
 		assertNotNull(c);
 		assertEquals ("Avenida Paulista", c.getEndereco() );
 	}
