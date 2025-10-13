@@ -64,6 +64,7 @@ public class ClienteService implements IClienteService {
 
 	@Override
 	public Optional<Cliente> consultarPorCpf(String cpf) {
+		logger.info(">>>>>> clienteservico - metodo consultaPorCpf iniciado => " + cpf);
 		return clienteRepository.findByCpf(cpf);
 	}
 

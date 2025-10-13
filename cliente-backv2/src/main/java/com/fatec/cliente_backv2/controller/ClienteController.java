@@ -77,7 +77,7 @@ public class ClienteController {
 			Optional<Cliente> c = clienteService.consultarPorCpf(cliente.cpf());
 			logger.info(">>>>>> apicontroller getCliente consulta servico iniciado");
 			if (c.isPresent()) {
-				ApiResponse<Cliente> response = new ApiResponse<>(c.get(), "Cliente encontrado com sucesso.");
+				ApiResponse<Cliente> response = new ApiResponse<>(c.get(), "");
 				return ResponseEntity.status(HttpStatus.OK).body(response);
 			} else {
 				ApiResponse<Cliente> response = new ApiResponse<>("CPF não encontrado.");

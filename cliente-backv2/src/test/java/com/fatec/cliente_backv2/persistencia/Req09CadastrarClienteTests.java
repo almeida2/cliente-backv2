@@ -84,4 +84,17 @@ class Req09CadastrarClienteTests {
 	    	clienteRepository.saveAndFlush(clienteDuplicado);
 	    });
 	}
+	@Test
+	void ct04_quando_dados_invalidos_retorna_erro() {
+		try {
+			// Dado - que o vendedor deixou o nome vazio na tela de cadastro de cliente
+			setup();
+			cliente.setCpf("");
+			// Quando - confirmo a operacao de cadastro
+			fail("deveria falhar cpf invalido");
+		} catch (Exception e) {
+			// Entao - o sistema exibe uma mensagem de CPF inválido E o cliente não é cadastrado
+			assertEquals("CPF invalido", e.getMessage());
+		}
+	}
 }
