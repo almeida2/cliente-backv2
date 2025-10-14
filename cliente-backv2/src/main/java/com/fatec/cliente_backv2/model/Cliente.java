@@ -45,16 +45,22 @@ public class Cliente {
 	}
 
 	public void setCpf(String cpf) {
-		if (validarCPF(cpf)) {
-			this.cpf = cpf;
-		} else {
+		if (cpf == null || cpf.isBlank())
 			throw new IllegalArgumentException("CPF invalido");
+		else {
+			if (validarCPF(cpf)) {
+				this.cpf = cpf;
+			} else {
+				throw new IllegalArgumentException("CPF invalido");
+			}
 		}
 
 	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
@@ -68,7 +74,7 @@ public class Cliente {
 			throw new IllegalArgumentException("O nome não deve estar em branco");
 		else
 			this.nome = nome;
-		
+
 	}
 
 	public String getCep() {
@@ -102,9 +108,9 @@ public class Cliente {
 	public void setDataCadastro() {
 		LocalDate dataAtual = LocalDate.now();
 		DateTimeFormatter pattern = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		String dataFormatada = dataAtual.format(pattern);  
+		String dataFormatada = dataAtual.format(pattern);
 		this.dataCadastro = dataFormatada;
-		
+
 	}
 
 	public static boolean validarCPF(String cpf) {
@@ -175,9 +181,8 @@ public class Cliente {
 		if (getClass() != obj.getClass())
 			return false;
 		Cliente other = (Cliente) obj;
-		return Objects.equals(cep, other.cep) && Objects.equals(cpf, other.cpf)
-				&& Objects.equals(email, other.email)
+		return Objects.equals(cep, other.cep) && Objects.equals(cpf, other.cpf) && Objects.equals(email, other.email)
 				&& Objects.equals(nome, other.nome);
 	}
-	
+
 }

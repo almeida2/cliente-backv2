@@ -1,0 +1,6 @@
+cpf,nome,cep,complemento,email,re
+50481475028, Jose Santos, 04280130, 123, jose@gmail.com, satisfatorio
+39702670055, Jose Santos, 04280130, 123, jose@gmail.com, satisfatorio
+ , Jose Santos, 04280130, 123, jose@gmail.com, CPF invalido
+,Jose Santos, 04280130, 123, jose@gmail.com, CPF invalido
+' ',Jose Santos, 04280130, 123, jose@gmail.com, CPF invalido
