@@ -1,6 +1,5 @@
 package com.fatec.cliente_backv2.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,7 +8,9 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fatec.cliente_backv2.model.Cliente;
 import com.fatec.cliente_backv2.model.ClienteDTO;
-import com.fatec.cliente_backv2.service.ClienteResponse;
 import com.fatec.cliente_backv2.service.IClienteService;
 
 @CrossOrigin("*") // desabilita o cors do spring security
@@ -89,4 +89,27 @@ public class ClienteController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 		}
 	}
+	
+    /**
+     * exclusao do cliente pelo cpf
+     * @param cpf O CPF do cliente a ser excluído, extraído da URL.
+     */
+    @DeleteMapping("/{cpf}") // define uma variável de caminho (path variable)
+    public ResponseEntity<ApiResponse<Cliente>> excluirCliente(@PathVariable String cpf) {
+        
+        // 1. Lógica de Negócio (Chamada ao Serviço)
+        // O serviço contém a lógica real para deletar o recurso
+        boolean excluido = clienteService.excluir(cpf);
+
+        // 2. Resposta HTTP
+        if (excluido) {
+            // Se a exclusão foi bem-sucedida, retorna o status HTTP 204 (No Content)
+            // 204 é o status padrão para deleções bem-sucedidas que não retornam um corpo de resposta.
+             return ResponseEntity.noContent().build();            
+        } else {
+            // Se o recurso não foi encontrado para exclusão, retorna 404 (Not Found)
+        	return ResponseEntity.notFound().build(); 
+        }
+    }
+	
 }

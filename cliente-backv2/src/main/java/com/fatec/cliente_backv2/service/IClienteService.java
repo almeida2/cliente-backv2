@@ -11,7 +11,7 @@ public interface IClienteService {
 	public Cliente cadastrar(ClienteDTO cliente);
 	public Optional<Cliente> consultarPorCpf(String cpf);
 	public Optional<Cliente> atualizar(String cpf, Cliente cliente);
-	public void excluir(String cpf);
+	public boolean excluir(String cpf);
 	public Double estoqueImobilizado();
 	
 }

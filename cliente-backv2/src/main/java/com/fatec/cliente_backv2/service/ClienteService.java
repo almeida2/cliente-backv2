@@ -15,26 +15,26 @@ import jakarta.transaction.Transactional;
 @Service
 public class ClienteService implements IClienteService {
 	Logger logger = LogManager.getLogger(this.getClass());
-	final IClienteRepository clienteRepository;
+	final IClienteRepository repository;
 
 	private IEnderecoService enderecoService;
 
 	// Injeção de dependências pelo construtor
 	public ClienteService(IClienteRepository clienteRepository, IEnderecoService enderecoService) {
-		this.clienteRepository = clienteRepository;
+		this.repository = clienteRepository;
 		this.enderecoService = enderecoService;
 	}
 
 	@Override
 	public List<Cliente> consultaTodos() {
 		logger.info(">>>>>> clienteservico - consulta todos iniciado");
-		return clienteRepository.findAll();
+		return repository.findAll();
 	}
 
 	@Transactional
 	public Cliente cadastrar(ClienteDTO clienteDTO) {
 		// 1. Verifica se o cliente já existe com base no CPF
-		if (clienteRepository.findByCpf(clienteDTO.cpf()).isPresent()) {
+		if (repository.findByCpf(clienteDTO.cpf()).isPresent()) {
 			logger.info(">>>>>> clienteservico - cliente já cadastrado: " + clienteDTO.cpf());
 			// Lança uma exceção personalizada para CPF duplicado
 			throw new IllegalArgumentException("Cliente com este CPF já cadastrado.");
@@ -58,13 +58,13 @@ public class ClienteService implements IClienteService {
 		novoCliente.setEndereco(endereco.get());
 
 		logger.info(">>>>>> clienteservico - cliente salvo com sucesso no repositório.");
-		return clienteRepository.save(novoCliente);
+		return repository.save(novoCliente);
 	}
 
 	@Override
 	public Optional<Cliente> consultarPorCpf(String cpf) {
 		logger.info(">>>>>> clienteservico - metodo consultaPorCpf iniciado => " + cpf);
-		return clienteRepository.findByCpf(cpf);
+		return repository.findByCpf(cpf);
 	}
 
 	@Override
@@ -73,15 +73,21 @@ public class ClienteService implements IClienteService {
 	}
 
 	@Override
-	public void excluir(String cpf) {
-		Optional<Cliente> c = clienteRepository.findByCpf(cpf);
-		if (c.isEmpty()) {
-			throw new IllegalArgumentException("Cliente não encontrado.");
-		} else {
-			clienteRepository.deleteByCpf(cpf);
-
-		}
-	}
+    @Transactional // Garante que a operação de deleção seja atômica
+    public boolean excluir(String cpf) {
+        
+        // 1. Verificar se o cliente existe
+        Optional<Cliente> clienteExistente = repository.findByCpf(cpf);
+        
+        if (clienteExistente.isPresent()) {
+            // 2. Se o cliente existe, realiza a exclusão
+            repository.deleteByCpf(cpf);
+            return true; // Exclusão bem-sucedida
+        } else {
+            // 3. Se o cliente não existe
+            return false; // Não foi possível excluir (não encontrado)
+        }
+    }
 
 	@Override
 	public Double estoqueImobilizado() {
