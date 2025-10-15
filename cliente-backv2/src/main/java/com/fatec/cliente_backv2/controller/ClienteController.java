@@ -105,6 +105,7 @@ public class ClienteController {
         if (excluido) {
             // Se a exclusão foi bem-sucedida, retorna o status HTTP 204 (No Content)
             // 204 é o status padrão para deleções bem-sucedidas que não retornam um corpo de resposta.
+        	logger.info(">>>>>>apicontroller excluir cliente " );
              return ResponseEntity.noContent().build();            
         } else {
             // Se o recurso não foi encontrado para exclusão, retorna 404 (Not Found)
