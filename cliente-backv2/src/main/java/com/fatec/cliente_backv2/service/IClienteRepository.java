@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fatec.cliente_backv2.model.Cliente;
 
 @Repository
-public interface ClienteRepository extends JpaRepository <Cliente, Long> {
+public interface IClienteRepository extends JpaRepository <Cliente, Long> {
 	Optional<Cliente> findByCpf(String cpf);
 	
     @Modifying

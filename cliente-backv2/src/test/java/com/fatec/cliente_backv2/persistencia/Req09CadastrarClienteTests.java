@@ -11,13 +11,13 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.dao.DataIntegrityViolationException;
 import com.fatec.cliente_backv2.model.Cliente;
-import com.fatec.cliente_backv2.service.ClienteRepository;
+import com.fatec.cliente_backv2.service.IClienteRepository;
 @DataJpaTest
 class Req09CadastrarClienteTests {
 
 	private Cliente cliente;
 	@Autowired
-	private ClienteRepository clienteRepository;
+	private IClienteRepository clienteRepository;
 	// Injete o TestEntityManager
 	@Autowired
 	private TestEntityManager entityManager;
