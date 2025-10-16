@@ -28,14 +28,14 @@ public class ClienteController {
 
 	IClienteService clienteService;
 
-	//injecao da dependencia automatica pelo metodo construtor
+	//injecao da dependencia pelo metodo construtor
 	public ClienteController(IClienteService clienteService) {
 		this.clienteService = clienteService;
 	}
 
 	/*
-	 * As informacoes do cliente sao recebidas em um arquivo DTO para o uso do
-	 * objeto POJO na assinatura do metodo.
+	 * As informacoes do cliente sao recebidas em um arquivo DTO entidades podem conter informacoes
+	 * sensiveis que não devem ser expostas diretamente para o app cliente
 	 */
 	@PostMapping
     public ResponseEntity<ApiResponse<Cliente>> saveCliente(@RequestBody ClienteDTO clienteDTO) {
@@ -69,7 +69,6 @@ public class ClienteController {
 
 	/*
 	 * O cpf eh enviado no arquivo json clientedto com os outros atributos em branco
-	 * para nao trafegar com o cpf na url
 	 */
 	@PostMapping("/cpf")
 	public ResponseEntity<ApiResponse<Cliente>> getCliente(@RequestBody ClienteDTO cliente) {
