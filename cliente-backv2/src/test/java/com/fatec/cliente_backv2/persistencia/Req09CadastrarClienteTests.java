@@ -2,19 +2,24 @@ package com.fatec.cliente_backv2.persistencia;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.dao.DataIntegrityViolationException;
+
 import com.fatec.cliente_backv2.model.Cliente;
 import com.fatec.cliente_backv2.service.IClienteRepository;
 @DataJpaTest
 class Req09CadastrarClienteTests {
-
+    //entidade
 	private Cliente cliente;
 	@Autowired
 	private IClienteRepository clienteRepository;
@@ -26,8 +31,8 @@ class Req09CadastrarClienteTests {
 		cliente = new Cliente();
 		cliente.setCpf("80983098000");
 		cliente.setNome("Jose da Silva");
-		cliente.setCep("01310-100");
-		cliente.setEndereco("Av. Paulista");
+		cliente.setCep("01310-100"); //não é validadado
+		cliente.setEndereco("Av. Paulista"); //stub
 		cliente.setComplemento("123");
 		cliente.setEmail("jose@gmail.com");
 		cliente.setDataCadastro();
@@ -95,6 +100,21 @@ class Req09CadastrarClienteTests {
 		} catch (Exception e) {
 			// Entao - o sistema exibe uma mensagem de CPF inválido E o cliente não é cadastrado
 			assertEquals("CPF invalido", e.getMessage());
+		}
+	}
+	@Test
+	void ct05_quando_dados_validos_cliente_excluido() {
+		try {
+			// Dado - que o cpf esta cadastrado
+			setup();
+			// Quando - confirmo a operacao de exclusao
+			clienteRepository.deleteByCpf("80983098000");
+			// Entao - o sistema exclui pelo cpf
+			Optional<Cliente> c = clienteRepository.findByCpf("80983098000");
+			assertTrue(c.isEmpty());
+		} catch (Exception e) {
+			fail("nao deveria falhar cpf cadastrado");
+			
 		}
 	}
 }

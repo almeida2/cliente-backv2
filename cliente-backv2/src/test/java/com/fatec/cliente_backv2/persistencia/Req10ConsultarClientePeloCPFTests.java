@@ -11,7 +11,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import com.fatec.cliente_backv2.model.Cliente;
 import com.fatec.cliente_backv2.service.IClienteRepository;
 @DataJpaTest
-class Req10ConcultaClientePeloCPFTests {
+class Req10ConsultarClientePeloCPFTests {
 
 	private Cliente cliente;
 	@Autowired

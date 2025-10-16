@@ -5,12 +5,18 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import com.fatec.cliente_backv2.model.Cliente;
+import com.fatec.cliente_backv2.service.IClienteRepository;
 
+@DataJpaTest
 class Req09CadastraraclienteDDTests {
-
-	Cliente cliente;
+	// entidade
+	private Cliente cliente;
+	@Autowired
+	private IClienteRepository clienteRepository;
 
 	@ParameterizedTest
 	@CsvFileSource(resources = "/dataset1.csv", numLinesToSkip = 1)
@@ -20,17 +26,17 @@ class Req09CadastraraclienteDDTests {
 			cliente = new Cliente();
 			cliente.setCpf(cpf);
 			cliente.setNome(nome);
-			cliente.setCep(cep); //nao sofre nenhum tipo de validacao no model
-			cliente.setEndereco("Rua Augusta"); //stub da api
+			cliente.setCep(cep); // nao sofre nenhum tipo de validacao no model
+			cliente.setEndereco("Rua Augusta"); // stub da api
 			cliente.setComplemento(complemento);
 			cliente.setDataCadastro();
 			cliente.setEmail(email);
-			assertNotNull(cliente);
+			Cliente novoCliente = clienteRepository.save(cliente);
+			assertNotNull(novoCliente);
 			assertEquals(re, "satisfatorio");
 		} catch (Exception e) {
 			assertEquals(re, e.getMessage());
 		}
 	}
-
 
 }

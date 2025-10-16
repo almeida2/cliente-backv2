@@ -80,7 +80,9 @@ public class Cliente {
 	public String getCep() {
 		return cep;
 	}
-
+	/*
+	 * a api viacep trata dados invalidos
+	 */
 	public void setCep(String cep) {
 		this.cep = cep;
 	}
