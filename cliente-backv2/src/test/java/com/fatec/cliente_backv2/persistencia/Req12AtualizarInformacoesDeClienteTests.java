@@ -26,14 +26,17 @@ class Req12AtualizarInformacoesDeClienteTests {
 		cliente.setDataCadastro();
 		clienteRepository.save(cliente);
 	}
-	
+	/*
+	 * Objetivo - verificar o comportamento da app na atualizacao das informacoes do cliente
+	 * Pré-requisitos - o cliente a ser atualizado esta cadastrado
+	 */
 	@Test
 	void ct01_quando_cliente_modificado_retorna_informacoes_atualizadas() {
 		//Dado que as informacoes de cliente estao cadastradas
 		setup();
 		//Quando atuliazo as informacoes
 		cliente.setNome("Carlos Xavier");
-		clienteRepository.save(cliente);
+		clienteRepository.save(cliente); //o id ja existe o JPA entende que a operação é update
 		//Entao as informacoes atualizadas ficam disponiveis para consulta
 		Optional<Cliente> clienteAtualizado = clienteRepository.findByCpf("80983098000");
 		assertEquals ("Carlos Xavier",clienteAtualizado.get().getNome());
