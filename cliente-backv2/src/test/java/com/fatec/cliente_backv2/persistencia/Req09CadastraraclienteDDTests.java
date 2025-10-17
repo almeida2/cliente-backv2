@@ -26,7 +26,7 @@ class Req09CadastraraclienteDDTests {
 			cliente = new Cliente();
 			cliente.setCpf(cpf);
 			cliente.setNome(nome);
-			cliente.setCep(cep); // nao sofre nenhum tipo de validacao no model
+			cliente.setCep(cep); // nao sofre nenhum tipo de verificacao no model
 			cliente.setEndereco("Rua Augusta"); // stub da api
 			cliente.setComplemento(complemento);
 			cliente.setDataCadastro();
