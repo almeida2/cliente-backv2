@@ -88,11 +88,5 @@ public class ClienteService implements IClienteService {
             return false; // Não foi possível excluir (não encontrado)
         }
     }
-
-	@Override
-	public Double estoqueImobilizado() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 }
