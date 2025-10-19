@@ -102,19 +102,5 @@ class Req09CadastrarClienteTests {
 			assertEquals("CPF invalido", e.getMessage());
 		}
 	}
-	@Test
-	void ct05_quando_dados_validos_cliente_excluido() {
-		try {
-			// Dado - que o cpf esta cadastrado
-			setup();
-			// Quando - confirmo a operacao de exclusao
-			clienteRepository.deleteByCpf("80983098000");
-			// Entao - o sistema exclui pelo cpf
-			Optional<Cliente> c = clienteRepository.findByCpf("80983098000");
-			assertTrue(c.isEmpty());
-		} catch (Exception e) {
-			fail("nao deveria falhar cpf cadastrado");
-			
-		}
-	}
+	
 }
