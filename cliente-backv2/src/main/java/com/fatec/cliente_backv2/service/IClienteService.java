@@ -2,7 +2,6 @@ package com.fatec.cliente_backv2.service;
 
 import java.util.List;
 import java.util.Optional;
-
 import com.fatec.cliente_backv2.model.Cliente;
 import com.fatec.cliente_backv2.model.ClienteDTO;
 

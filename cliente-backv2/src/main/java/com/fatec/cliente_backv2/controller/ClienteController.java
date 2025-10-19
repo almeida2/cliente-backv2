@@ -93,18 +93,17 @@ public class ClienteController {
      * exclusao do cliente pelo cpf
      * @param cpf O CPF do cliente a ser excluído, extraído da URL.
      */
-    @DeleteMapping("/{cpf}") // define uma variável de caminho (path variable)
+    @DeleteMapping("/{cpf}") // path variable-o parametro e envidado no endpoint
     public ResponseEntity<ApiResponse<Cliente>> excluirCliente(@PathVariable String cpf) {
-        
-        // 1. Lógica de Negócio (Chamada ao Serviço)
-        // O serviço contém a lógica real para deletar o recurso
+    	logger.info(">>>>>>apicontroller excluir cliente iniciado " + cpf );
+        // 1. Chama o servico para executar a exclusao
         boolean excluido = clienteService.excluir(cpf);
 
-        // 2. Resposta HTTP
+        // 2. Envelopamento da resposta HTTP
         if (excluido) {
             // Se a exclusão foi bem-sucedida, retorna o status HTTP 204 (No Content)
             // 204 é o status padrão para deleções bem-sucedidas que não retornam um corpo de resposta.
-        	logger.info(">>>>>>apicontroller excluir cliente " );
+        	logger.info(">>>>>>apicontroller cliente excluido " );
              return ResponseEntity.noContent().build();            
         } else {
             // Se o recurso não foi encontrado para exclusão, retorna 404 (Not Found)
