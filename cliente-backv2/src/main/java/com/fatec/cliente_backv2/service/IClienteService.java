@@ -14,8 +14,7 @@ public interface IClienteService {
 	public Optional<Cliente> consultarPorCpf(String cpf);
 	//Req11 Consulta agrupada pelo CEP (nao implementado)
 	//Req12 Atualizar informações do cliente 
-	public Optional<Cliente> atualizar(String cpf, Cliente cliente);
+	public Optional<Cliente> atualizar(ClienteDTO cliente);
 	//Req13 Exclusão pelo CPF
 	public boolean excluir(String cpf);
-	
 }

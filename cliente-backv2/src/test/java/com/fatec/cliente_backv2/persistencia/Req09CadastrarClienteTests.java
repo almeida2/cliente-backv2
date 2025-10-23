@@ -102,5 +102,18 @@ class Req09CadastrarClienteTests {
 			assertEquals("CPF invalido", e.getMessage());
 		}
 	}
+	//@Test
+	void ct05_quando_nome_invalido_retorna_erro() {
+		try {
+			// Dado - que o vendedor deixou o nome vazio na tela de cadastro de cliente
+			setup();
+			cliente.setNome(" ");
+			// Quando - confirmo a operacao de cadastro
+			fail("deveria falhar cpf invalido");
+		} catch (Exception e) {
+			// Entao - o sistema exibe uma mensagem de CPF inválido E o cliente não é cadastrado
+			assertEquals("O nome não deve estar em branco", e.getMessage());
+		}
+	}
 	
 }

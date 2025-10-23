@@ -74,7 +74,6 @@ public class Cliente {
 			throw new IllegalArgumentException("O nome não deve estar em branco");
 		else
 			this.nome = nome;
-
 	}
 
 	public String getCep() {

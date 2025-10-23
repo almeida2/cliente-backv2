@@ -68,25 +68,54 @@ public class ClienteService implements IClienteService {
 	}
 
 	@Override
-	public Optional<Cliente> atualizar(String cpf, Cliente cliente) {
-		return Optional.empty();
+	public Optional<Cliente> atualizar(ClienteDTO clienteAtualizado) {
+		// 1. Verifica se o cpf esta cadastrado
+		logger.info(">>>>>> clienteservico - atualizar.........: " + clienteAtualizado.cep());
+        Optional<Cliente> c = repository.findByCpf(clienteAtualizado.cpf());
+		if (c.isEmpty()) {
+			logger.info(">>>>>> clienteservico - cliente invalido: " + clienteAtualizado.cpf());
+			// Lança uma exceção personalizada para CPF duplicado
+			throw new IllegalArgumentException("Cliente inválidoo.");
+		}
+
+		// 2. Busca o endereço pelo CEP. Se não encontrar, lança exceção.
+		logger.info(">>>>>> buscando endereço para o CEP: " + clienteAtualizado.cep());
+		Optional<String> endereco = enderecoService.obtemLogradouroPorCep(clienteAtualizado.cep());
+		
+		if (endereco.isEmpty()) {
+			logger.info(">>>>>> Endereço não encontrado para o CEP: " + clienteAtualizado.cep());
+			throw new IllegalArgumentException("Endereço não encontrado para o CEP informado.");
+		}
+		// 3. Converte DTO para entidade e persiste
+		Cliente novoCliente = new Cliente();
+		novoCliente.setId(c.get().getId()); //obtem o id do cliente existente
+		novoCliente.setCpf(clienteAtualizado.cpf());
+		novoCliente.setNome(clienteAtualizado.nome());
+		novoCliente.setCep(clienteAtualizado.cep());
+		novoCliente.setComplemento(clienteAtualizado.complemento());
+		novoCliente.setEmail(clienteAtualizado.email());
+		novoCliente.setDataCadastro();
+		novoCliente.setEndereco(endereco.get());
+
+		logger.info(">>>>>> clienteservico - cliente salvo com sucesso no repositório.");
+		return Optional.of(repository.save(novoCliente));
 	}
 
 	@Override
-    @Transactional // Garante que a operação de deleção seja atômica
-    public boolean excluir(String cpf) {
-        
-        // 1. Verificar se o cliente existe
-        Optional<Cliente> clienteExistente = repository.findByCpf(cpf);
-        
-        if (clienteExistente.isPresent()) {
-            // 2. Se o cliente existe, realiza a exclusão
-            repository.deleteByCpf(cpf);
-            return true; // Exclusão bem-sucedida
-        } else {
-            // 3. Se o cliente não existe
-            return false; // Não foi possível excluir (não encontrado)
-        }
-    }
-	
+	@Transactional // Garante que a operação de deleção seja atômica
+	public boolean excluir(String cpf) {
+
+		// 1. Verificar se o cliente existe
+		Optional<Cliente> clienteExistente = repository.findByCpf(cpf);
+
+		if (clienteExistente.isPresent()) {
+			// 2. Se o cliente existe, realiza a exclusão
+			repository.deleteByCpf(cpf);
+			return true; // Exclusão bem-sucedida
+		} else {
+			// 3. Se o cliente não existe
+			return false; // Não foi possível excluir (não encontrado)
+		}
+	}
+
 }

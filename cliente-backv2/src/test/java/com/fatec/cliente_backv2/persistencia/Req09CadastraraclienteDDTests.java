@@ -31,7 +31,7 @@ class Req09CadastraraclienteDDTests {
 			cliente.setComplemento(complemento);
 			cliente.setDataCadastro();
 			cliente.setEmail(email);
-			Cliente novoCliente = clienteRepository.save(cliente);
+			Cliente novoCliente = clienteRepository.save(cliente); //CRUD na camada de repository
 			assertNotNull(novoCliente);
 			assertEquals(re, "satisfatorio");
 		} catch (Exception e) {

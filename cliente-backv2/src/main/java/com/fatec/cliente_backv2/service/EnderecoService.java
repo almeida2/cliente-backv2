@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import com.fatec.cliente_backv2.model.Endereco;
@@ -28,11 +29,11 @@ public class EnderecoService implements IEnderecoService {
      * consulta - comunicação sincrona com a api viacep
      */
     public Optional<String> obtemLogradouroPorCep(String cep) {
-        logger.info(">>>>>> obtemLogradouroPorCep chamado para o CEP: ");
+        logger.info(">>>>>> obtemLogradouroPorCep chamado para o CEP: " + cep);
         try {
             ResponseEntity<Endereco> response = restTemplate.exchange(
                 API_URL,
-                HttpMethod.GET,
+            	HttpMethod.GET,
                 null,
                 Endereco.class,
                 cep
@@ -52,6 +53,10 @@ public class EnderecoService implements IEnderecoService {
         } catch (HttpClientErrorException e) {
             logger.warn(">>>>>> Erro retornado pela API ao buscar CEP ");
             return Optional.empty();
+        }
+        catch(ResourceAccessException e) {
+        	logger.warn(">>>>>> Erro nao esperado retornado pela API ao buscar CEP=> " + e.getMessage());
+        	return Optional.empty();
         }
     }
 }
