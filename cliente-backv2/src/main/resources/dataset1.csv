@@ -1,10 +1,5 @@
 cpf,nome,cep,complemento,email,re
-50481475028, Jose Santos, 04280130, 123, jose@gmail.com, satisfatorio
-39702670055, Jose Santos, 04280130, 123, jose@gmail.com, satisfatorio
- , Jose Santos, 04280130, 123, jose@gmail.com, CPF invalido
-,Jose Santos, 04280130, 123, jose@gmail.com, CPF invalido
-" ",Jose Santos, 04280130, 123, jose@gmail.com, CPF invalido
-"",Jose Santos, 04280130, 123, jose@gmail.com, CPF invalido
-39702670055," ", 04280130, 123, jose@gmail.com, O nome não deve estar em branco
-39702670055,"", 04280130, 123, jose@gmail.com, O nome não deve estar em branco
 39702670055,, 04280130, 123, jose@gmail.com, O nome não deve estar em branco
+39702670055,Carlos Silva, 04280130, 123, jose@gmail.com, satisfatorio
+39702670055,"", 04280130, 123, jose@gmail.com, O nome não deve estar em branco
+39702670055," ", 04280130, 123, jose@gmail.com, O nome não deve estar em branco
