@@ -22,6 +22,8 @@ class Req10ConsultarClientePeloCPFTests {
 		cliente.setNome("Jose da Silva");
 		cliente.setCep("01310-100");
 		cliente.setEndereco("Av. Paulista");
+		cliente.setBairro("Bela Vista");
+		cliente.setCidade("Sao Paulo");
 		cliente.setComplemento("123");
 		cliente.setEmail("jose@gmail.com");
 		cliente.setDataCadastro();

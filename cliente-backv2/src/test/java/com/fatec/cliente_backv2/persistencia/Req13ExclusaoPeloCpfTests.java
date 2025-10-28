@@ -11,17 +11,7 @@ class Req13ExclusaoPeloCpfTests {
 	private Cliente cliente;
 	@Autowired
 	private IClienteRepository clienteRepository;
-	public void setup() {
-		cliente = new Cliente();
-		cliente.setCpf("80983098000");
-		cliente.setNome("Jose da Silva");
-		cliente.setCep("01310-100");
-		cliente.setEndereco("Av. Paulista");
-		cliente.setComplemento("123");
-		cliente.setEmail("jose@gmail.com");
-		cliente.setDataCadastro();
-		clienteRepository.save(cliente);
-	}
+	
 	
 
 }

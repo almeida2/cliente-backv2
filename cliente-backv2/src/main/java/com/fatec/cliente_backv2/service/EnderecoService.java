@@ -28,7 +28,7 @@ public class EnderecoService implements IEnderecoService {
     /**
      * consulta - comunicação sincrona com a api viacep
      */
-    public Optional<String> obtemLogradouroPorCep(String cep) {
+    public Optional<Endereco> obtemLogradouroPorCep(String cep) {
         logger.info(">>>>>> obtemLogradouroPorCep chamado para o CEP: " + cep);
         try {
             ResponseEntity<Endereco> response = restTemplate.exchange(
@@ -45,7 +45,7 @@ public class EnderecoService implements IEnderecoService {
             Endereco endereco = response.getBody();
             if (endereco != null && endereco.getLogradouro() != null) {
                 logger.info(">>>>>> Logradouro encontrado");
-                return Optional.of(endereco.getLogradouro());
+                return Optional.of(endereco);
             } else {
                 logger.warn(">>>>>> Logradouro não encontrado para o CEP ");
                 return Optional.empty();

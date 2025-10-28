@@ -21,7 +21,7 @@ class Req10ConsultarClientePeloCPFTests {
 	private static final String CPF_CLIENTE = "83021772021";
 	@BeforeEach
 	public void preRequisitoDeTeste() {
-		cliente = new ClienteDTO(CPF_CLIENTE, "Jose da Silva", "01310-100", "123", "jose@gmail.com");
+		cliente = new ClienteDTO(CPF_CLIENTE, "Jose da Silva", "01310-100", "Av. Paulista", "Bela Vista", "Sao Paulo","123", "jose@gmail.com");
 		servico.cadastrar(cliente);
 	}
 

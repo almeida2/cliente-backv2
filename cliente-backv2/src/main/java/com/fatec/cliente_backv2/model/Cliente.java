@@ -23,6 +23,8 @@ public class Cliente {
 	private String nome;
 	private String cep;
 	private String endereco;
+	private String bairro;
+	private String cidade;
 	private String complemento;
 	private String email;
 	@JsonFormat(pattern = "dd/MM/yyyy")
@@ -112,6 +114,22 @@ public class Cliente {
 		String dataFormatada = dataAtual.format(pattern);
 		this.dataCadastro = dataFormatada;
 
+	}
+
+	public String getBairro() {
+		return bairro;
+	}
+
+	public void setBairro(String bairro) {
+		this.bairro = bairro;
+	}
+
+	public String getCidade() {
+		return cidade;
+	}
+
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
 	}
 
 	public static boolean validarCPF(String cpf) {

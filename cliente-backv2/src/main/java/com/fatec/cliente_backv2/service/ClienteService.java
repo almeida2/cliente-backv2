@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.fatec.cliente_backv2.model.Cliente;
 import com.fatec.cliente_backv2.model.ClienteDTO;
+import com.fatec.cliente_backv2.model.Endereco;
 
 import jakarta.transaction.Transactional;
 
@@ -41,7 +42,7 @@ public class ClienteService implements IClienteService {
 		}
 
 		// 2. Busca o endereço pelo CEP. Se não encontrar, lança exceção.
-		Optional<String> endereco = enderecoService.obtemLogradouroPorCep(clienteDTO.cep());
+		Optional<Endereco> endereco = enderecoService.obtemLogradouroPorCep(clienteDTO.cep());
 		if (endereco.isEmpty()) {
 			logger.info(">>>>>> Endereço não encontrado para o CEP: " + clienteDTO.cep());
 			throw new IllegalArgumentException("Endereço não encontrado para o CEP informado.");
@@ -52,10 +53,13 @@ public class ClienteService implements IClienteService {
 		novoCliente.setCpf(clienteDTO.cpf());
 		novoCliente.setNome(clienteDTO.nome());
 		novoCliente.setCep(clienteDTO.cep());
+		novoCliente.setEndereco(clienteDTO.endereco());
+		novoCliente.setBairro(clienteDTO.bairro());
+		novoCliente.setCidade(clienteDTO.cidade());
 		novoCliente.setComplemento(clienteDTO.complemento());
 		novoCliente.setEmail(clienteDTO.email());
 		novoCliente.setDataCadastro();
-		novoCliente.setEndereco(endereco.get());
+		novoCliente.setEndereco(endereco.get().getLogradouro());
 
 		logger.info(">>>>>> clienteservico - cliente salvo com sucesso no repositório.");
 		return repository.save(novoCliente);
@@ -75,12 +79,12 @@ public class ClienteService implements IClienteService {
 		if (c.isEmpty()) {
 			logger.info(">>>>>> clienteservico - cliente invalido: " + clienteAtualizado.cpf());
 			// Lança uma exceção personalizada para CPF duplicado
-			throw new IllegalArgumentException("Cliente inválidoo.");
+			throw new IllegalArgumentException("Cliente inválido.");
 		}
 
 		// 2. Busca o endereço pelo CEP. Se não encontrar, lança exceção.
 		logger.info(">>>>>> buscando endereço para o CEP: " + clienteAtualizado.cep());
-		Optional<String> endereco = enderecoService.obtemLogradouroPorCep(clienteAtualizado.cep());
+		Optional<Endereco> endereco = enderecoService.obtemLogradouroPorCep(clienteAtualizado.cep());
 		
 		if (endereco.isEmpty()) {
 			logger.info(">>>>>> Endereço não encontrado para o CEP: " + clienteAtualizado.cep());
@@ -92,10 +96,13 @@ public class ClienteService implements IClienteService {
 		novoCliente.setCpf(clienteAtualizado.cpf());
 		novoCliente.setNome(clienteAtualizado.nome());
 		novoCliente.setCep(clienteAtualizado.cep());
+		novoCliente.setEndereco(clienteAtualizado.endereco());
+		novoCliente.setBairro(clienteAtualizado.bairro());
+		novoCliente.setCidade(clienteAtualizado.cidade());
 		novoCliente.setComplemento(clienteAtualizado.complemento());
 		novoCliente.setEmail(clienteAtualizado.email());
 		novoCliente.setDataCadastro();
-		novoCliente.setEndereco(endereco.get());
+		novoCliente.setEndereco(endereco.get().getLogradouro());
 
 		logger.info(">>>>>> clienteservico - cliente salvo com sucesso no repositório.");
 		return Optional.of(repository.save(novoCliente));
