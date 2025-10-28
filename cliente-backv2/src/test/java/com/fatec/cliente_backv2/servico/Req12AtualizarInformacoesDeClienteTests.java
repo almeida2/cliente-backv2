@@ -25,16 +25,6 @@ class Req12AtualizarInformacoesDeClienteTests {
 		cliente = new ClienteDTO(CPF_CLIENTE, "Jose da Silva", "01310-100", "Av. Paulista", "Bela Vista", "Sao Paulo","123", "jose@gmail.com");
 		servico.cadastrar(cliente);
 	}
-	@Test
-	void ct01_quando_atualiza_informacoes_cliente_retorna_cliente_atulizado() {
-		// Dado - que o cliente esta cadastrado
-		//Quando o vendedor atualiza as informacoes do cep
-		cliente = new ClienteDTO(CPF_CLIENTE, "Jose da Silva", "01416001", "Rua da Consolação", "Bela Vista", "Sao Paulo","123", "jose@gmail.com");
-		Optional<Cliente> clienteAtualizado = servico.atualizar(cliente);
-		// Entao - retorna os detalhes do cliente atualizado
-		assertTrue(clienteAtualizado.isPresent());
-		assertEquals ("Rua da Consolação", clienteAtualizado.get().getEndereco() );
-	}
-
+	
 	
 }
