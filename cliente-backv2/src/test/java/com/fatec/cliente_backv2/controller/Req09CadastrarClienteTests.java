@@ -84,7 +84,7 @@ class Req09CadastrarClienteTests {
 		// 2. Verifica os dados principais do Cliente
 		assertEquals(clienteNovo.nome(), clienteCadastrado.getNome(), "O nome do cliente cadastrado deve ser o mesmo do DTO.");
 
-		// 3. Verifica o campo preenchido pela API (vem de um serviço externo)
+		// 3. Verifica o campo preenchido pela API (que vem de um serviço externo)
 		assertEquals("Avenida Paulista", clienteCadastrado.getEndereco(), "O endereço deve ser preenchido corretamente via consulta de CEP.");
 
 	}

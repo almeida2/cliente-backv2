@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fatec.cliente_backv2.model.Cliente;
+import com.fatec.cliente_backv2.model.ClienteCpfDto;
 import com.fatec.cliente_backv2.model.ClienteDTO;
 import com.fatec.cliente_backv2.model.Endereco;
 import com.fatec.cliente_backv2.service.IClienteService;
@@ -78,9 +79,9 @@ public class ClienteController {
 	 * atributos em branco
 	 */
 	@PostMapping("/cpf")
-	public ResponseEntity<ApiResponse<Cliente>> getCliente(@RequestBody ClienteDTO cliente) {
+	public ResponseEntity<ApiResponse<Cliente>> getCliente(@RequestBody ClienteCpfDto cliente) {
 		try {
-			Optional<Cliente> c = clienteService.consultarPorCpf(cliente.cpf());
+			Optional<Cliente> c = clienteService.consultarPorCpf(cliente.getCpf());
 			logger.info(">>>>>> apicontroller getCliente consulta servico iniciado");
 			if (c.isPresent()) {
 				ApiResponse<Cliente> response = new ApiResponse<>(c.get(), "");
