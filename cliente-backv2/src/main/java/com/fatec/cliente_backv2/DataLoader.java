@@ -26,7 +26,6 @@ public class DataLoader implements CommandLineRunner {
 
     private static final Logger logger = LogManager.getLogger(DataLoader.class);
     
-   // private final ClienteService clienteService;
     private final IClienteRepository repository;
 
     /**
@@ -88,7 +87,7 @@ public class DataLoader implements CommandLineRunner {
 					// Cria o DTO
 					ClienteDTO clienteDTO = new ClienteDTO(cpf, nome, cep, endereco, bairro, cidade,
 							complemento, email);
-					// 3. Converte DTO para entidade e persiste
+					// Converte DTO para entidade e persiste
 					Cliente novoCliente = new Cliente();
 					novoCliente.setCpf(clienteDTO.cpf());
 					novoCliente.setNome(clienteDTO.nome());
