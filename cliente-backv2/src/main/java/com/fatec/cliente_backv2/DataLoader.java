@@ -12,8 +12,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
+import com.fatec.cliente_backv2.model.Cliente;
 import com.fatec.cliente_backv2.model.ClienteDTO;
 import com.fatec.cliente_backv2.service.ClienteService;
+import com.fatec.cliente_backv2.service.IClienteRepository;
 
 /**
  * Componente que executa a lógica de carregamento do CSV 
@@ -24,7 +26,8 @@ public class DataLoader implements CommandLineRunner {
 
     private static final Logger logger = LogManager.getLogger(DataLoader.class);
     
-    private final ClienteService clienteService;
+   // private final ClienteService clienteService;
+    private final IClienteRepository repository;
 
     /**
      * Injeta o arquivo CSV do Classpath (src/main/resources) 
@@ -33,14 +36,14 @@ public class DataLoader implements CommandLineRunner {
      * (1) No teste do backend utilizar o dataset1.csv
      * (2) No teste do frontend utilizar o dataset100.csv
      */
-    @Value("classpath:dataset1.csv")
+    @Value("classpath:dataset100.csv")
     private Resource dataFile;
 
     /**
      * Injeção de dependência do ClienteService via construtor.
      */
-    public DataLoader(ClienteService clienteService) {
-        this.clienteService = clienteService;
+    public DataLoader(IClienteRepository repository) {
+        this.repository = repository;
     }
 
     /**
@@ -85,10 +88,21 @@ public class DataLoader implements CommandLineRunner {
 					// Cria o DTO
 					ClienteDTO clienteDTO = new ClienteDTO(cpf, nome, cep, endereco, bairro, cidade,
 							complemento, email);
-
+					// 3. Converte DTO para entidade e persiste
+					Cliente novoCliente = new Cliente();
+					novoCliente.setCpf(clienteDTO.cpf());
+					novoCliente.setNome(clienteDTO.nome());
+					novoCliente.setCep(clienteDTO.cep());
+					novoCliente.setEndereco(clienteDTO.endereco());
+					novoCliente.setBairro(clienteDTO.bairro());
+					novoCliente.setCidade(clienteDTO.cidade());
+					novoCliente.setComplemento(clienteDTO.complemento());
+					novoCliente.setEmail(clienteDTO.email());
+					novoCliente.setDataCadastro();
+					novoCliente.setEndereco(clienteDTO.endereco());
                     try {
                         // Chama o serviço injetado
-                        clienteService.cadastrar(clienteDTO);
+                        repository.save(novoCliente);
                         logger.info("✅ Cliente carregado e cadastrado: {}", cpf);
                     } catch (IllegalArgumentException e) {
                         // Captura exceções como CPF duplicado ou CEP inválido

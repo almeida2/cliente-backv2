@@ -5,7 +5,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
-
+/**
+ * Gera o arquivo CSV de clientes.
+ *
+ */
 public class ClienteDataGenerator {
 
     private static final int NUM_REGISTROS = 100;
@@ -25,7 +28,7 @@ public class ClienteDataGenerator {
     public static void main(String[] args) {
         System.out.println("Iniciando geração de " + NUM_REGISTROS + " registros...");
         
-        // Usa um Set para garantir que os CPFs sejam únicos
+        // Usa hash Set para garantir que os CPFs sejam únicos
         Set<String> cpfsGerados = new HashSet<>();
         
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(NOME_ARQUIVO))) {

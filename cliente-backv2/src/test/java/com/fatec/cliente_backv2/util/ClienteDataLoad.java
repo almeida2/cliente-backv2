@@ -11,18 +11,19 @@ import org.apache.logging.log4j.Logger;
 
 import com.fatec.cliente_backv2.model.Cliente;
 import com.fatec.cliente_backv2.model.ClienteDTO;
-import com.fatec.cliente_backv2.service.ClienteService;
+import com.fatec.cliente_backv2.service.IClienteRepository;
 import com.fatec.cliente_backv2.service.IClienteService;
 
 /**
- * Classe para leitura de um arquivo CSV e o cadastro de clientes
- * utilizando o ClienteService.
+ * Classe para leitura de um arquivo CSV e o cadastro de clientes utilizando o
+ * ClienteService.
  *
  */
 public class ClienteDataLoad {
 
 	private static final Logger logger = LogManager.getLogger(ClienteDataLoad.class);
-	private final IClienteService clienteService;
+	// private final IClienteService clienteService;
+	private final IClienteRepository repository;
 
 	/**
 	 * Construtor que recebe o ClienteService, garantindo a Inversão de Controle
@@ -30,8 +31,11 @@ public class ClienteDataLoad {
 	 * 
 	 * @param clienteService A instância do serviço a ser testada.
 	 */
-	public ClienteDataLoad(IClienteService clienteService) {
-		this.clienteService = clienteService;
+//	public ClienteDataLoad(IClienteService clienteService) {
+//		this.clienteService = clienteService;
+//	}
+	public ClienteDataLoad(IClienteRepository repository) {
+		this.repository = repository;
 	}
 
 	/**
@@ -85,10 +89,24 @@ public class ClienteDataLoad {
 							// 1. Cria o DTO
 							ClienteDTO clienteDTO = new ClienteDTO(cpf, nome, cep, endereco, bairro, cidade,
 									complemento, email);
+							// 3. Converte DTO para entidade e persiste
+							Cliente novoCliente = new Cliente();
+							novoCliente.setCpf(clienteDTO.cpf());
+							novoCliente.setNome(clienteDTO.nome());
+							novoCliente.setCep(clienteDTO.cep());
+							novoCliente.setEndereco(clienteDTO.endereco());
+							novoCliente.setBairro(clienteDTO.bairro());
+							novoCliente.setCidade(clienteDTO.cidade());
+							novoCliente.setComplemento(clienteDTO.complemento());
+							novoCliente.setEmail(clienteDTO.email());
+							novoCliente.setDataCadastro();
+							novoCliente.setEndereco(clienteDTO.endereco());
 
+							
+							
 							// 2. Chama o método de cadastro
-							Cliente clienteCadastrado = clienteService.cadastrar(clienteDTO);
-
+							//Cliente clienteCadastrado = clienteService.cadastrar(clienteDTO);
+							Cliente clienteCadastrado = repository.save(novoCliente);
 							logger.info("✅ Cliente cadastrado com SUCESSO! CPF: {}", clienteCadastrado.getCpf());
 
 						} catch (IllegalArgumentException e) {
@@ -100,7 +118,6 @@ public class ClienteDataLoad {
 						logger.warn("Linha ignorada por formato inválido (menos de 6 colunas): {}", linha);
 					}
 
-					
 				}
 
 				logger.info(">>> Leitura e processamento do arquivo CSV CONCLUÍDOS.");
