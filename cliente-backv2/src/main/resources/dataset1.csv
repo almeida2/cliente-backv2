@@ -1,6 +1,2 @@
 cpf,nome,cep,complemento,email,re
-39702670055,, 04280130, 123, jose@gmail.com, O nome não deve estar em branco
-39702670055,Carlos Silva, 04280130, 123, jose@gmail.com, satisfatorio
-39702670055,"", 04280130, 123, jose@gmail.com, O nome não deve estar em branco
-39702670055," ", 04280130, 123, jose@gmail.com, O nome não deve estar em branco
-39702670055,, 04280130, 123, jose@gmail.com, O nome não deve estar em branco
+39702670055,Ana Santos,01001000,Rua Central,Vila Nair,São Paulo,Apto 11,ana.santos@empresa.com

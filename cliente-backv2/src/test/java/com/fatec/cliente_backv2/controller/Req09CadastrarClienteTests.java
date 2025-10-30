@@ -54,14 +54,14 @@ class Req09CadastrarClienteTests {
 		HttpEntity<String> request = createPostRequest(clienteNovo);
 
 		// Tipo de resposta esperado (para tipos genéricos)
-		ParameterizedTypeReference<ApiResponse<Cliente>> responseType = new ParameterizedTypeReference<ApiResponse<Cliente>>() {
+		ParameterizedTypeReference<ResponseApi<Cliente>> responseType = new ParameterizedTypeReference<ResponseApi<Cliente>>() {
 		};
 
 		// ********************************************************************
 		// When - quando confirmo o cadastro do cliente
 		// ********************************************************************
 
-		ResponseEntity<ApiResponse<Cliente>> response = restTemplate.exchange(URL_BASE, HttpMethod.POST, request,
+		ResponseEntity<ResponseApi<Cliente>> response = restTemplate.exchange(URL_BASE, HttpMethod.POST, request,
 				responseType);
 
 		// ********************************************************************
@@ -72,7 +72,7 @@ class Req09CadastrarClienteTests {
 		assertEquals(HttpStatus.CREATED, response.getStatusCode(), "O status code deve ser 201 CREATED.");
 
 		// Extrai o corpo da resposta
-		ApiResponse<Cliente> apiResponse = response.getBody();
+		ResponseApi<Cliente> apiResponse = response.getBody();
 
 		// Verifica se o corpo não é nulo e se o dado está presente
 		if (apiResponse == null || apiResponse.getData() == null) {

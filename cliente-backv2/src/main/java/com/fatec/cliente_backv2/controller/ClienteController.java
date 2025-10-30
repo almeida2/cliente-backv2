@@ -24,6 +24,9 @@ import com.fatec.cliente_backv2.model.Endereco;
 import com.fatec.cliente_backv2.service.IClienteService;
 import com.fatec.cliente_backv2.service.IEnderecoService;
 
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 @CrossOrigin("*") // desabilita o cors do spring security
 @RestController
 @RequestMapping("/api/v1/clientes")
@@ -44,33 +47,35 @@ public class ClienteController {
 	 * conter informacoes sensiveis que não devem ser expostas diretamente para o
 	 * app cliente
 	 */
+	
 	@PostMapping
-	public ResponseEntity<ApiResponse<Cliente>> saveCliente(@RequestBody ClienteDTO clienteDTO) {
+	
+	public ResponseEntity<ResponseApi<Cliente>> saveCliente(@RequestBody ClienteDTO clienteDTO) {
 		logger.info(">>>>>> apicontroller cadastro de cliente iniciado...");
 
 		try {
 			Cliente novoCliente = clienteService.cadastrar(clienteDTO);
-			ApiResponse<Cliente> response = new ApiResponse<>(novoCliente, "Cliente cadastrado com sucesso.");
+			ResponseApi<Cliente> response = new ResponseApi<>(novoCliente, "Cliente cadastrado com sucesso.");
 			logger.info(">>>>>> apicontroller cliente cadastrado");
 			return ResponseEntity.status(HttpStatus.CREATED).body(response);
 
 		} catch (IllegalArgumentException e) {
 			// Captura exceção de CEP inválido
-			ApiResponse<Cliente> response = new ApiResponse<>(e.getMessage());
+			ResponseApi<Cliente> response = new ResponseApi<>(e.getMessage());
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 
 		} catch (Exception e) {
 			// Captura qualquer outro erro inesperado
-			ApiResponse<Cliente> response = new ApiResponse<>("Erro inesperado ao cadastrar cliente.");
+			ResponseApi<Cliente> response = new ResponseApi<>("Erro inesperado ao cadastrar cliente.");
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}
 
 	@GetMapping("/all")
-	public ResponseEntity<ApiResponse<List<Cliente>>> getAll() {
+	public ResponseEntity<ResponseApi<List<Cliente>>> getAll() {
 		logger.info(">>>>>> api cliente controller consulta todos iniciado...");
 		List<Cliente> clientes = clienteService.consultaTodos();
-		ApiResponse<List<Cliente>> response = new ApiResponse<>(clientes, "Lista de clientes cadastrados");
+		ResponseApi<List<Cliente>> response = new ResponseApi<>(clientes, "Lista de clientes cadastrados");
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 
@@ -79,20 +84,20 @@ public class ClienteController {
 	 * atributos em branco
 	 */
 	@PostMapping("/cpf")
-	public ResponseEntity<ApiResponse<Cliente>> getCliente(@RequestBody ClienteCpfDto cliente) {
+	public ResponseEntity<ResponseApi<Cliente>> getCliente(@RequestBody ClienteCpfDto cliente) {
 		try {
 			Optional<Cliente> c = clienteService.consultarPorCpf(cliente.getCpf());
 			logger.info(">>>>>> apicontroller getCliente consulta servico iniciado");
 			if (c.isPresent()) {
-				ApiResponse<Cliente> response = new ApiResponse<>(c.get(), "");
+				ResponseApi<Cliente> response = new ResponseApi<>(c.get(), "");
 				return ResponseEntity.status(HttpStatus.OK).body(response);
 			} else {
-				ApiResponse<Cliente> response = new ApiResponse<>("CPF não encontrado.");
+				ResponseApi<Cliente> response = new ResponseApi<>("CPF não encontrado.");
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 			}
 		} catch (Exception e) {
 			logger.info(">>>>>>apicontroller getCliente erro nao esperado => " + e.getMessage());
-			ApiResponse<Cliente> response = new ApiResponse<>(e.getMessage());
+			ResponseApi<Cliente> response = new ResponseApi<>(e.getMessage());
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 		}
 	}
@@ -103,7 +108,7 @@ public class ClienteController {
 	 * @param cpf O CPF do cliente a ser excluído, extraído da URL.
 	 */
 	@DeleteMapping("/{cpf}") // path variable-o parametro e envidado no endpoint
-	public ResponseEntity<ApiResponse<Cliente>> excluirCliente(@PathVariable String cpf) {
+	public ResponseEntity<ResponseApi<Cliente>> excluirCliente(@PathVariable String cpf) {
 		logger.info(">>>>>>apicontroller excluir cliente iniciado " + cpf);
 		// 1. Chama o servico para executar a exclusao
 		boolean excluido = clienteService.excluir(cpf);
@@ -122,32 +127,32 @@ public class ClienteController {
 	}
 
 	@GetMapping("/{cep}")
-	public ResponseEntity<ApiResponse<Endereco>> consultarCep(@PathVariable String cep) {
+	public ResponseEntity<ResponseApi<Endereco>> consultarCep(@PathVariable String cep) {
 		Optional<Endereco> e = enderecoService.obtemLogradouroPorCep(cep);
 		if (e.isPresent()) {
-			ApiResponse<Endereco> response = new ApiResponse<>(e.get(), "Endereco obtido com sucesso.");
+			ResponseApi<Endereco> response = new ResponseApi<>(e.get(), "Endereco obtido com sucesso.");
 			return ResponseEntity.status(HttpStatus.OK).body(response);
 		} else {
-			ApiResponse<Endereco> response = new ApiResponse<>("CEP não encontrado.");
+			ResponseApi<Endereco> response = new ResponseApi<>("CEP não encontrado.");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 		}
 	}
 	@PutMapping("/up")
-	public ResponseEntity<ApiResponse<Cliente>> atualizar(@RequestBody ClienteDTO clienteDTO) {
+	public ResponseEntity<ResponseApi<Cliente>> atualizar(@RequestBody ClienteDTO clienteDTO) {
 		try {
 			Cliente clienteAtualizado = clienteService.atualizar(clienteDTO).get();
-			ApiResponse<Cliente> response = new ApiResponse<>(clienteAtualizado, "Informações de clieten atualizada com sucesso.");
+			ResponseApi<Cliente> response = new ResponseApi<>(clienteAtualizado, "Informações de clieten atualizada com sucesso.");
 			logger.info(">>>>>> apicontroller cliente cadastrado");
 			return ResponseEntity.status(HttpStatus.OK).body(response);
 
 		} catch (IllegalArgumentException e) {
 			// Captura exceção de CEP inválido
-			ApiResponse<Cliente> response = new ApiResponse<>(e.getMessage());
+			ResponseApi<Cliente> response = new ResponseApi<>(e.getMessage());
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 
 		} catch (Exception e) {
 			// Captura qualquer outro erro inesperado
-			ApiResponse<Cliente> response = new ApiResponse<>("Erro inesperado ao cadastrar cliente.");
+			ResponseApi<Cliente> response = new ResponseApi<>("Erro inesperado ao cadastrar cliente.");
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}

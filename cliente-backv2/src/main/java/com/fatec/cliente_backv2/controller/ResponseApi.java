@@ -3,7 +3,7 @@ package com.fatec.cliente_backv2.controller;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ApiResponse<T> {
+public class ResponseApi<T> {
 
 	private String status;
 	private T data;
@@ -12,20 +12,20 @@ public class ApiResponse<T> {
 	// Construtor para sucesso
 	// O generics <T> permite que essa classe seja utilizada para qualquer tipo de
 	// dado
-	public ApiResponse(T data, String message) {
+	public ResponseApi(T data, String message) {
 		this.status = "success";
 		this.data = data;
 		this.message = message;
 	}
 
 	// Construtor para erro
-	public ApiResponse(String message) {
+	public ResponseApi(String message) {
 		this.status = "error";
 		this.data = null; // Para erros, a parte de dados pode ser nula
 		this.message = message;
 	}
 
-	public ApiResponse() {
+	public ResponseApi() {
 
 	}
 

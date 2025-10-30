@@ -28,9 +28,12 @@ public class DataLoader implements CommandLineRunner {
 
     /**
      * Injeta o arquivo CSV do Classpath (src/main/resources) 
-     * no objeto Resource do Spring.
+     * no objeto Resource do Spring. 
+     * Setup de teste 
+     * (1) No teste do backend utilizar o dataset1.csv
+     * (2) No teste do frontend utilizar o dataset100.csv
      */
-    @Value("classpath:dataset100.csv")
+    @Value("classpath:dataset1.csv")
     private Resource dataFile;
 
     /**

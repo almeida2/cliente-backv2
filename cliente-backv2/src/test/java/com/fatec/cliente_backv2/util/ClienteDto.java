@@ -1,4 +1,4 @@
-package com.fatec.cliente_backv2.servico;
+package com.fatec.cliente_backv2.util;
 
 public record ClienteDto(
 	    String cpf,
