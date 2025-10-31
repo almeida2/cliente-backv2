@@ -22,18 +22,14 @@ public class EnderecoServiceMock implements IEnderecoService {
 	private static final String API_MOCK = "http://localhost:3000/tempcep?cep={cep}";
     private static final Logger logger = LogManager.getLogger(EnderecoServiceMock.class);
 
-    private final RestTemplate restTemplate;
-
-    public EnderecoServiceMock(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
-
+       
     /**
      * consulta - comunicação síncrona com a api mock.
      * Espera um formato de resposta JSON que é um array: [{"cep": "...", ...}]
      */
     public Optional<Endereco> obtemLogradouroPorCep(String cep) {
-        logger.info(">>>>>> obtemLogradouroPorCep chamado para o CEP: " + cep);
+    	RestTemplate restTemplate = new RestTemplate();
+        logger.info(">>>>>> obtemLogradouroPorCep stub chamado para o CEP: " + cep);
         try {
             // 1. Mudar o tipo de retorno esperado para um array/List de Endereco
             ResponseEntity<List<Endereco>> response = restTemplate.exchange(

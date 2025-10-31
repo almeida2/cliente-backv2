@@ -21,6 +21,7 @@ import com.fatec.cliente_backv2.model.Cliente;
 import com.fatec.cliente_backv2.model.ClienteCpfDto;
 import com.fatec.cliente_backv2.model.ClienteDTO;
 import com.fatec.cliente_backv2.model.Endereco;
+import com.fatec.cliente_backv2.service.EnderecoServiceMock;
 import com.fatec.cliente_backv2.service.IClienteService;
 import com.fatec.cliente_backv2.service.IEnderecoService;
 
@@ -39,7 +40,8 @@ public class ClienteController {
 	// injecao da dependencia pelo metodo construtor
 	public ClienteController(IClienteService clienteService, IEnderecoService enderecoService) {
 		this.clienteService = clienteService;
-		this.enderecoService = enderecoService;
+		//this.enderecoService = enderecoService;
+		this.enderecoService = new EnderecoServiceMock(); //stub para o consulta cep excluir do import
 	}
 
 	/*

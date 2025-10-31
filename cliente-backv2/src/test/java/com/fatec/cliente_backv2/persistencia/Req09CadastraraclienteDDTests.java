@@ -20,15 +20,17 @@ class Req09CadastraraclienteDDTests {
 
 	@ParameterizedTest
 	@CsvFileSource(resources = "/dataset1.csv", numLinesToSkip = 1)
-	public void ct_verifica_comportamento_cadastro(String cpf, String nome, String cep, String complemento,
+	public void ct_verifica_comportamento_cadastro(String cpf, String nome, String cep, String endereco, String bairro, String cidade, String complemento,
 			String email, String re) {
 		try {
 			cliente = new Cliente();
 			cliente.setCpf(cpf);
 			cliente.setNome(nome);
-			cliente.setCep(cep); // nao sofre nenhum tipo de verificacao no model
-			cliente.setEndereco("Rua Augusta"); // stub da api
+			cliente.setCep(cep); 
+			cliente.setEndereco(endereco); 
 			cliente.setComplemento(complemento);
+			cliente.setBairro(bairro);
+			cliente.setCidade(cidade);
 			cliente.setDataCadastro();
 			cliente.setEmail(email);
 			Cliente novoCliente = clienteRepository.save(cliente); //CRUD na camada de repository

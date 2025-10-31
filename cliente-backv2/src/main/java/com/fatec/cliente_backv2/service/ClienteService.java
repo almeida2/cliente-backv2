@@ -22,7 +22,7 @@ public class ClienteService implements IClienteService {
 	// Injeção de dependências pelo construtor
 	public ClienteService(IClienteRepository clienteRepository, IEnderecoService enderecoService) {
 		this.repository = clienteRepository;
-		this.enderecoService = enderecoService;
+		this.enderecoService = new EnderecoServiceMock(); //stub para consulta cep excluir do import
 	}
 
 	@Override
