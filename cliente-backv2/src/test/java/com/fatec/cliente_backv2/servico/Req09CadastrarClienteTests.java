@@ -11,19 +11,21 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.fatec.cliente_backv2.model.Cliente;
 import com.fatec.cliente_backv2.model.ClienteDTO;
 import com.fatec.cliente_backv2.model.Endereco;
+import com.fatec.cliente_backv2.service.EnderecoServiceMock;
 import com.fatec.cliente_backv2.service.IClienteService;
-import com.fatec.cliente_backv2.service.IEnderecoService;
 @SpringBootTest
 class Req09CadastrarClienteTests {
 	@Autowired
 	IClienteService clienteServico;
+	//@Autowired
+	//EnderecoService enderecoServico;
 	@Autowired
-	IEnderecoService enderecoServico;
+	EnderecoServiceMock enderecoServico;//stub do servico consulta cep
 	ClienteDTO cliente;
 	Cliente c = null;
 	Endereco e = null;
 	private static final String CPF = "44015623053";
-	private static final String CEP = "01310-100";
+	private static final String CEP = "01310000";
 	@BeforeEach //simula a entrada de usuario pela interface
 	public void preRequisitoDeTeste() {
 		e = enderecoServico.obtemLogradouroPorCep(CEP).get();

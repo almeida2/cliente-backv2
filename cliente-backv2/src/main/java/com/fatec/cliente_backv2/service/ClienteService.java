@@ -16,8 +16,7 @@ import jakarta.transaction.Transactional;
 @Service
 public class ClienteService implements IClienteService {
 	Logger logger = LogManager.getLogger(this.getClass());
-	final IClienteRepository repository;
-
+	private IClienteRepository repository;
 	private IEnderecoService enderecoService;
 
 	// Injeção de dependências pelo construtor

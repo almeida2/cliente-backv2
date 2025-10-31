@@ -17,7 +17,7 @@ import com.fatec.cliente_backv2.model.Endereco;
 @Service
 public class EnderecoService implements IEnderecoService {
 
-    private static final String API_URL = "https://viacep.com.br/ws/{cep}/json/";
+	private static final String API_URL = "https://viacep.com.br/ws/{cep}/json/";
     private static final Logger logger = LogManager.getLogger(EnderecoService.class);
 
     private final RestTemplate restTemplate;

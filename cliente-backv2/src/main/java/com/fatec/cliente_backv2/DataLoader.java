@@ -50,7 +50,7 @@ public class DataLoader implements CommandLineRunner {
      */
     @Override
     public void run(String... args) throws Exception {
-        logger.info(">>> Iniciando carregamento de dados iniciais do CSV...");
+        logger.info(">>> Iniciando carregamento de dados do CSV para o DB...");
         
         if (dataFile == null || !dataFile.exists()) {
              logger.warn("Arquivo dataset2.csv não encontrado no classpath. Pulando inicialização de dados.");
@@ -100,7 +100,7 @@ public class DataLoader implements CommandLineRunner {
 					novoCliente.setDataCadastro();
 					novoCliente.setEndereco(clienteDTO.endereco());
                     try {
-                        // Chama o serviço injetado
+                        // Chama o repository injetado
                         repository.save(novoCliente);
                         logger.info("✅ Cliente carregado e cadastrado: {}", cpf);
                     } catch (IllegalArgumentException e) {
