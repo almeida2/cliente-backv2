@@ -14,11 +14,11 @@ public class Req09CadastrarClienteTests {
     page.navigate("http://localhost:5173/");
     page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Cadastrar cliente")).click();
     page.getByTestId("cpf").click();
-    page.getByTestId("cpf").fill("99504993052");
+    page.getByTestId("cpf").fill("47813630084");
     page.getByTestId("nome").click();
     page.getByTestId("nome").fill("jose");
     page.getByTestId("nome").press("Tab");
-    page.getByTestId("cep").fill("08545160");
+    page.getByTestId("cep").fill("04280130");
     page.getByTestId("complemento").click();
     page.getByTestId("complemento").fill("123");
     page.getByTestId("email").click();

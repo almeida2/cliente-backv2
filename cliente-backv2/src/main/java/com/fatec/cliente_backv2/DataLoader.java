@@ -35,7 +35,7 @@ public class DataLoader implements CommandLineRunner {
      * (1) No teste do backend utilizar o dataset1.csv
      * (2) No teste do frontend utilizar o dataset100.csv
      */
-    @Value("classpath:dataset100.csv")
+    @Value("classpath:dataset1.csv")
     private Resource dataFile;
 
     /**

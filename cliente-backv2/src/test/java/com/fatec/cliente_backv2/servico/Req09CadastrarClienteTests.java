@@ -24,7 +24,7 @@ class Req09CadastrarClienteTests {
 	ClienteService service;
 	ClienteDTO cliente;
 	Cliente c = null;
-	private static final String CPF = "73056284090";
+	private static final String CPF = "48400451007";
 	private static final String CEP = "01310000";
 	@BeforeEach //simula a entrada de usuario pela interface
 	public void preRequisitoDeTeste() {

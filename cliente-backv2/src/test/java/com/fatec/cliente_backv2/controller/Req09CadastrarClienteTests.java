@@ -48,7 +48,7 @@ class Req09CadastrarClienteTests {
 		// ********************************************************************
 
 		// Caminho feliz
-		ClienteDTO clienteNovo = new ClienteDTO("80983098000", "Jose da Silva", "01310-100", "Av. Paulista", "Bela Vista", "Sao Paulo","123", "jose@gmail.com");
+		ClienteDTO clienteNovo = new ClienteDTO("80983098000", "Jose da Silva", "01310000", "Av. Paulista", "Bela Vista", "Sao Paulo","123", "jose@gmail.com");
 
 		// Empacota a requisicao HTTP
 		HttpEntity<String> request = createPostRequest(clienteNovo);
