@@ -48,6 +48,7 @@ public class ClienteService implements IClienteService {
 		}
 
 		// 3. Converte DTO para entidade e persiste
+		//    as informacoes de endereco sao fornecidas automaticamente diretamente na interface
 		Cliente novoCliente = new Cliente();
 		novoCliente.setCpf(clienteDTO.cpf());
 		novoCliente.setNome(clienteDTO.nome());

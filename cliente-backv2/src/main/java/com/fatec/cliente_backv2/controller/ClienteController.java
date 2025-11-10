@@ -48,6 +48,8 @@ public class ClienteController {
 	 * As informacoes do cliente sao recebidas em um arquivo DTO entidades podem
 	 * conter informacoes sensiveis que não devem ser expostas diretamente para o
 	 * app cliente
+	 * As informacoes de endereco sao fornecidas automaticamente na interface
+	 * alteracoes do usuario na interface serão cadastradas.
 	 */
 	
 	@PostMapping
@@ -63,7 +65,7 @@ public class ClienteController {
 
 		} catch (IllegalArgumentException e) {
 			// Captura exceção de CEP inválido
-			ResponseApi<Cliente> response = new ResponseApi<>(e.getMessage());
+			ResponseApi<Cliente> response = new ResponseApi<>(null, e.getMessage());
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 
 		} catch (Exception e) {
