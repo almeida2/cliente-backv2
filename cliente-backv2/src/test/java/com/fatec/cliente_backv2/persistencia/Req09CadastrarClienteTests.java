@@ -1,6 +1,7 @@
 package com.fatec.cliente_backv2.persistencia;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.time.LocalDate;
@@ -95,13 +96,10 @@ class Req09CadastrarClienteTests {
 	    clienteDuplicado.setEmail("maria@gmail.com");
 	    clienteDuplicado.setDataCadastro();
 	    // 3. Entao - o sistema exibe uma mensagem de erro informando que o cliente ja esta cadastrado 
-	    try {
-	    	clienteRepository.saveAndFlush(clienteDuplicado);
-	    }catch (DataIntegrityViolationException e) {
-	    	System.out.println(">>>>>> erro " + e.getMessage());
-	    	
-	    }
 	    
+	    assertThrows(DataIntegrityViolationException.class, () -> {
+            clienteRepository.saveAndFlush(clienteDuplicado);
+        });
 	    
 	}
 	@Test
