@@ -15,5 +15,28 @@ import com.fatec.cliente_backv2.service.IClienteService;
 
 @SpringBootTest
 class Req13ExclusaoPeloCpfTest {
-	
+    @Autowired
+    IClienteService servico;
+    ClienteDTO cliente;
+    Cliente c = null;
+    private static final String CPF_CLIENTE = "44015623053";
+
+    @BeforeEach
+    public void preRequisitoDeTeste() {
+        cliente = new ClienteDTO(CPF_CLIENTE, "Jose da Silva", "01310-100", "Av. Paulista", "Bela Vista", "Sao Paulo",
+                "123", "jose@gmail.com");
+        servico.cadastrar(cliente);
+    }
+
+    @Test
+    void ct01_quando_exclui_cliente_retorna_true() {
+        // Dado - que o cliente esta cadastrado (ver @BeforeEach)
+
+        // Quando - cliente é excluído
+        boolean result = servico.excluir(CPF_CLIENTE);
+
+        // Entao - retorna true
+        assertTrue(result);
+    }
+
 }

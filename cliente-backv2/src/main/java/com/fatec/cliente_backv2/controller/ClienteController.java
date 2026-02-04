@@ -25,9 +25,12 @@ import com.fatec.cliente_backv2.service.EnderecoServiceMock;
 import com.fatec.cliente_backv2.service.IClienteService;
 import com.fatec.cliente_backv2.service.IEnderecoService;
 
-import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
+@Tag(name = "ClienteController", description = "Endpoints para gerenciamento de clientes")
 @CrossOrigin("*") // desabilita o cors do spring security
 @RestController
 @RequestMapping("/api/v1/clientes")
@@ -40,8 +43,8 @@ public class ClienteController {
 	// injecao da dependencia pelo metodo construtor
 	public ClienteController(IClienteService clienteService, IEnderecoService enderecoService) {
 		this.clienteService = clienteService;
-		//this.enderecoService = enderecoService;
-		this.enderecoService = new EnderecoServiceMock(); //stub para o consulta cep excluir do import
+		// this.enderecoService = enderecoService;
+		this.enderecoService = new EnderecoServiceMock(); // stub para o consulta cep excluir do import
 	}
 
 	/*
@@ -51,9 +54,14 @@ public class ClienteController {
 	 * As informacoes de endereco sao fornecidas automaticamente na interface
 	 * alteracoes do usuario na interface serão cadastradas.
 	 */
-	
+
+	@Operation(summary = "Cadastra um novo cliente", description = "Recebe um DTO de cliente e persiste no banco de dados após validações")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "201", description = "Cliente cadastrado com sucesso"),
+			@ApiResponse(responseCode = "400", description = "Erro de validação (ex: CPF ou CEP inválido)"),
+			@ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+	})
 	@PostMapping
-	
 	public ResponseEntity<ResponseApi<Cliente>> saveCliente(@RequestBody ClienteDTO clienteDTO) {
 		logger.info(">>>>>> apicontroller cadastro de cliente iniciado...");
 
@@ -75,6 +83,8 @@ public class ClienteController {
 		}
 	}
 
+	@Operation(summary = "Retorna todos os clientes", description = "Lista todos os clientes cadastrados na base de dados")
+	@ApiResponse(responseCode = "200", description = "Lista retornada com sucesso")
 	@GetMapping("/all")
 	public ResponseEntity<ResponseApi<List<Cliente>>> getAll() {
 		logger.info(">>>>>> api cliente controller consulta todos iniciado...");
@@ -87,6 +97,11 @@ public class ClienteController {
 	 * Consulta por cpf O cpf eh enviado no arquivo json clientedto com os outros
 	 * atributos em branco
 	 */
+	@Operation(summary = "Consulta cliente por CPF", description = "Busca os detalhes de um cliente específico através do seu CPF informado no corpo da requisição")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Cliente encontrado"),
+			@ApiResponse(responseCode = "400", description = "CPF não encontrado ou erro inesperado")
+	})
 	@PostMapping("/cpf")
 	public ResponseEntity<ResponseApi<Cliente>> getCliente(@RequestBody ClienteCpfDto cliente) {
 		try {
@@ -111,6 +126,11 @@ public class ClienteController {
 	 * 
 	 * @param cpf O CPF do cliente a ser excluído, extraído da URL.
 	 */
+	@Operation(summary = "Exclui um cliente pelo CPF", description = "Remove o cliente da base de dados utilizando o CPF como identificador na URL")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "204", description = "Cliente excluído com sucesso"),
+			@ApiResponse(responseCode = "404", description = "Cliente não encontrado")
+	})
 	@DeleteMapping("/{cpf}") // path variable-o parametro e envidado no endpoint
 	public ResponseEntity<ResponseApi<Cliente>> excluirCliente(@PathVariable String cpf) {
 		logger.info(">>>>>>apicontroller excluir cliente iniciado " + cpf);
@@ -130,6 +150,11 @@ public class ClienteController {
 		}
 	}
 
+	@Operation(summary = "Consulta endereço pelo CEP", description = "Consome um serviço de consulta de CEP para retornar os dados de endereço")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Endereço encontrado"),
+			@ApiResponse(responseCode = "400", description = "CEP não encontrado")
+	})
 	@GetMapping("/{cep}")
 	public ResponseEntity<ResponseApi<Endereco>> consultarCep(@PathVariable String cep) {
 		Optional<Endereco> e = enderecoService.obtemLogradouroPorCep(cep);
@@ -141,11 +166,19 @@ public class ClienteController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 		}
 	}
+
+	@Operation(summary = "Atualiza os dados de um cliente", description = "Recebe um DTO com os dados atualizados e persiste as mudanças")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Cliente atualizado com sucesso"),
+			@ApiResponse(responseCode = "400", description = "Dados inválidos"),
+			@ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+	})
 	@PutMapping("/up")
 	public ResponseEntity<ResponseApi<Cliente>> atualizar(@RequestBody ClienteDTO clienteDTO) {
 		try {
 			Cliente clienteAtualizado = clienteService.atualizar(clienteDTO).get();
-			ResponseApi<Cliente> response = new ResponseApi<>(clienteAtualizado, "Informações de clieten atualizada com sucesso.");
+			ResponseApi<Cliente> response = new ResponseApi<>(clienteAtualizado,
+					"Informações de clieten atualizada com sucesso.");
 			logger.info(">>>>>> apicontroller cliente cadastrado");
 			return ResponseEntity.status(HttpStatus.OK).body(response);
 

@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.fatec.cliente_backv2.model.Cliente;
 import com.fatec.cliente_backv2.model.ClienteDTO;
@@ -22,7 +23,10 @@ public class ClienteService implements IClienteService {
 	// Injeção de dependências pelo construtor
 	public ClienteService(IClienteRepository clienteRepository, IEnderecoService enderecoService) {
 		this.repository = clienteRepository;
-		this.enderecoService = new EnderecoServiceMock(); //stub para consulta cep excluir do import
+		// this.enderecoService = new EnderecoServiceMock(); //stub para consulta cep
+		// excluir do import
+
+		this.enderecoService = enderecoService;
 	}
 
 	@Override
@@ -48,7 +52,8 @@ public class ClienteService implements IClienteService {
 		}
 
 		// 3. Converte DTO para entidade e persiste
-		//    as informacoes de endereco sao fornecidas automaticamente diretamente na interface
+		// as informacoes de endereco sao fornecidas automaticamente diretamente na
+		// interface
 		Cliente novoCliente = new Cliente();
 		novoCliente.setCpf(clienteDTO.cpf());
 		novoCliente.setNome(clienteDTO.nome());
@@ -75,7 +80,7 @@ public class ClienteService implements IClienteService {
 	public Optional<Cliente> atualizar(ClienteDTO clienteAtualizado) {
 		// 1. Verifica se o cpf esta cadastrado
 		logger.info(">>>>>> clienteservico - atualizar.........: " + clienteAtualizado.cep());
-        Optional<Cliente> c = repository.findByCpf(clienteAtualizado.cpf());
+		Optional<Cliente> c = repository.findByCpf(clienteAtualizado.cpf());
 		if (c.isEmpty()) {
 			logger.info(">>>>>> clienteservico - cliente invalido: " + clienteAtualizado.cpf());
 			// Lança uma exceção personalizada para CPF duplicado
@@ -85,14 +90,14 @@ public class ClienteService implements IClienteService {
 		// 2. Busca o endereço pelo CEP. Se não encontrar, lança exceção.
 		logger.info(">>>>>> buscando endereço para o CEP: " + clienteAtualizado.cep());
 		Optional<Endereco> endereco = enderecoService.obtemLogradouroPorCep(clienteAtualizado.cep());
-		
+
 		if (endereco.isEmpty()) {
 			logger.info(">>>>>> Endereço não encontrado para o CEP: " + clienteAtualizado.cep());
 			throw new IllegalArgumentException("Endereço não encontrado para o CEP informado.");
 		}
 		// 3. Converte DTO para entidade e persiste
 		Cliente novoCliente = new Cliente();
-		novoCliente.setId(c.get().getId()); //obtem o id do cliente existente
+		novoCliente.setId(c.get().getId()); // obtem o id do cliente existente
 		novoCliente.setCpf(clienteAtualizado.cpf());
 		novoCliente.setNome(clienteAtualizado.nome());
 		novoCliente.setCep(clienteAtualizado.cep());

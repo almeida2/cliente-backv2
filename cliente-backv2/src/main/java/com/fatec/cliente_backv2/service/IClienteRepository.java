@@ -11,12 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fatec.cliente_backv2.model.Cliente;
 
 @Repository
-public interface IClienteRepository extends JpaRepository <Cliente, Long> {
-	Optional<Cliente> findByCpf(String cpf);
-	
-    @Modifying
-    @Transactional
+public interface IClienteRepository extends JpaRepository<Cliente, Long> {
+    Optional<Cliente> findByCpf(String cpf);
+
+    @Modifying // Indicates that the query modifies the database state
+    @Transactional // Ensures the operation runs within a transaction
     @Query("delete from Cliente c where c.cpf = :cpf")
-	void deleteByCpf(String cpf);
+    void deleteByCpf(String cpf);
 
 }

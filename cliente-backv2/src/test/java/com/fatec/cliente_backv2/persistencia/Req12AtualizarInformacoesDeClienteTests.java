@@ -10,13 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import com.fatec.cliente_backv2.model.Cliente;
-import com.fatec.cliente_backv2.model.ClienteDTO;
 import com.fatec.cliente_backv2.service.IClienteRepository;
+
 @DataJpaTest
 class Req12AtualizarInformacoesDeClienteTests {
 	private Cliente cliente;
 	@Autowired
 	private IClienteRepository clienteRepository;
+
 	public void setup() {
 		cliente = new Cliente();
 		cliente.setCpf("80983098000");
@@ -30,10 +31,23 @@ class Req12AtualizarInformacoesDeClienteTests {
 		cliente.setDataCadastro();
 		clienteRepository.save(cliente);
 	}
+
 	/*
-	 * Objetivo - verificar o comportamento da app na atualizacao das informacoes do cliente
+	 * Objetivo - verificar o comportamento da app na atualizacao das informacoes do
+	 * cliente
 	 * Pré-requisitos - o cliente a ser atualizado esta cadastrado
 	 */
-	
+	@Test
+	void ct01_quando_atualiza_informacoes_cliente_retorna_atualizado() {
+		// Dado - que o cliente esta cadastrado
+		setup();
+		// Quando - informacoes do cliente sao atualizadas
+		Optional<Cliente> c = clienteRepository.findByCpf("80983098000");
+		c.get().setNome("Jose da Silva Junior");
+		clienteRepository.save(c.get());
+		Optional<Cliente> c2 = clienteRepository.findByCpf("80983098000");
+		// Entao - retorna informacao atualizada
+		assertEquals("Jose da Silva Junior", c2.get().getNome());
 
+	}
 }
