@@ -14,10 +14,12 @@ Esta é a API de gerenciamento de clientes, responsável por fornecer endpoints 
 
 ## 🛠️ Funcionalidades
 
-- [x] Cadastro de novos clientes - valida CEP, CPF e CPF jã cadastrado.
+- [x] Cadastro de novos clientes, obtem o endereço pelo ViaCEP - valida CEP, CPF e CPF já cadastrado.
 - [x] Listagem e busca de clientes pelo CPF - CPF enviado no DTO ClienteDTO.
 - [x] Atualização de dados cadastrais - valida CEP.
 - [x] Remoção de clientes do sistema.
+ * Carrega arquivo csv de clientes para simulação armazenado junto com o fonte: path - src/main/resources.
+ * Permite usar um simulador (stub) de ViaCEP
 
 ## 📦 Como executar o projeto
 
@@ -29,6 +31,7 @@ Para rodar este projeto localmente, siga os passos abaixo:
 
  2. **Abra o terminal na pasta raiz do projeto:** <p>
 Pasta raiz - C:\temp\projeto-java\cliente-backv2\cliente-backv2> <p>
-Maven: Execute mvn clean install <p>
+Maven: Execute mvn clean install - para compilar e gerar o build <p>
+IDE: no menu principal da IDE run ou debug
 JAR: no terminal execute - java -jar cliente-backv2-0.0.1-SNAPSHOT.jar. 
 
