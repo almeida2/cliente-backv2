@@ -1,7 +1,6 @@
 package com.fatec.cliente_backv2.persistencia;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Optional;
 

@@ -19,7 +19,7 @@ class Req13ExclusaoPeloCpfTest {
     IClienteService servico;
     ClienteDTO cliente;
     Cliente c = null;
-    private static final String CPF_CLIENTE = "44015623053";
+    private static final String CPF_CLIENTE = "12086306016";
 
     @BeforeEach
     public void preRequisitoDeTeste() {
